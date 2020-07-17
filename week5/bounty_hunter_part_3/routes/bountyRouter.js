@@ -7,7 +7,9 @@ const bounties = [
         title: "Kit Fisto",
         living: "true",
         bountyAmount: "5000",
-        type: "Jedi", _id: uuid()
+        type: "Jedi",
+        // image: <img src= "",
+         _id: uuid()
     },
 
     {
@@ -16,7 +18,49 @@ const bounties = [
         bountyAmount: "5000",
         type: "Jedi", _id: uuid()
     },
- 
+
+    {
+        title: "Barriss Offee",
+        living: "true",
+        bountyAmount: "5000",
+        type: "Jedi", _id: uuid()
+    },
+
+    {
+        title: "Shaak Ti",
+        living: "false",
+        bountyAmount: "5000",
+        type: "Jedi", _id: uuid()
+    },
+
+    {
+        title: "Aayla Secura",
+        living: "true",
+        bountyAmount: "5000",
+        type: "Jedi", _id: uuid()
+    },
+
+    {
+        title: "Marka Ragnos",
+        living: "false",
+        bountyAmount: "500",
+        type: "Sith", _id: uuid()
+    },
+
+    {
+        title: "Darth Nihilus",
+        living: "false",
+        bountyAmount: "300",
+        type: "Sith", _id: uuid()
+    },
+
+    {
+        title: "Darth Bane",
+        living: "true",
+        bountyAmount: "1500",
+        type: "Sith", _id: uuid()
+    },
+
     {
         title: "Darth Sidious",
         living: "true",
@@ -34,7 +78,6 @@ const bounties = [
 
 // Get All
 bountyRouter.get("/", (req, res) => {
-    console.log('hit')
     res.send(bounties)
 })
 
@@ -53,11 +96,11 @@ bountyRouter.get("/search/living", (req, res) => {
 })
 
 // Post One
-bountyRouter.post("/", (req, res) => {
+bountyRouter.post("/", (reg, res) => {
     const newBounty = req.body
     newBounty._id = uuid()
     bounties.push(newBounty)
-    res.send(newBounty)
+    res.send("Successfully added ${newBounty.title} to the database")
 })
 
 // Update One

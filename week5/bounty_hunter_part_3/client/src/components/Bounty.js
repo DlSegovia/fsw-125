@@ -1,6 +1,8 @@
 import React from 'react'
 
+
 export default function Bounty(props) {
+console.log(props)
   const {title, type, bountyAmount, living, _id} = props
   return (
     <div className='bounty'>
@@ -8,9 +10,8 @@ export default function Bounty(props) {
       <h1 className='type'>Jedi / Sith: {type}</h1>
       <h2 className='botyAmt'>Bounty: {bountyAmount}</h2>
       <h3 className='living'>Living: {living}</h3>
+       
 
     </div>
   )
 }
-
-

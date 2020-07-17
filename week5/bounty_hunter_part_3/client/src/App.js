@@ -3,8 +3,14 @@ import axios from 'axios'
 import Bounty from './components/Bounty.js'
 import AddBountyForm from './components/AddBountyForm.js'
 
-export default function App() {
+export default function App(){
     const [bounty, setBounty] = useState([])
+
+    useEffect(() => {
+      axios.get("/bounties")
+      .then(res => setBounty(res.data))
+      .catch(err => console.log(err))
+    }, [])
 
     function getBounties(){
         axios.get("/bounties")
@@ -12,7 +18,7 @@ export default function App() {
         .catch(err => console.log(err))
     }
 
-    function addBounty(newBounty){
+    function AddBounty(newBounty){
         axios.post("/bounties", newBounty)
         .then(res => console.log(res))
         .catch(err => console.log(err))
@@ -25,12 +31,12 @@ export default function App() {
 
 
     return (
-        <div>
-            <div className='bounty-container'>
-                <AddBountyForm 
-                addBounty={addBounty}/>
-                {bounty.map(bounty => <Bounty {...bounty} key={bounty.title} />)}
-            </div>
-        </div>
-    )
+      <div>
+          <div className='bounty-container'>
+              <AddBountyForm 
+              addBounty={AddBounty}/>
+              {bounty.map(bounty => <Bounty {...bounty} key={bounty.title} />)}
+          </div>
+      </div>
+  )
 }

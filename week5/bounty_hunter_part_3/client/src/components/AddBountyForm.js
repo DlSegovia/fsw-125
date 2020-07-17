@@ -30,6 +30,7 @@ name="type"
 value={inputs.type} 
 onChange={handleChange} 
 placeholder="Jedi / Sith"/>
+<br /><br />
 <input 
 type="text" 
 name="bountyAmount" 
@@ -42,8 +43,8 @@ name="living"
 value={inputs.living} 
 onChange={handleChange} 
 placeholder="Living"/>
+<br /><br />
 <button>Add Bounty</button>
     </form>
   )
 }
-

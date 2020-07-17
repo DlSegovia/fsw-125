@@ -1,16 +1,12 @@
 const express = require("express")
+const cors = require ('cors')
 const app = express()
-// const morgan = require("morgan")
 
-// Middleware (for every request)
-app.use(express.json())// Looks for a request body, and turns it into 'req.body'
-// app.use(morgan('dev'))// Logs request to the console
+app.use(express.json())
+app.use(cors())
 
-// Routes
-app.use("/bounties", require('./routes/bountyRouter.js'));
+app.use("/bounties", require("./routes/bountyRouter.js"))
 
-
-// Server Listen
-app.listen(7000, () => {
-    console.log("The server is running on Port 7000")
-})
+app.listen(5000, () => {
+    console.log("Server is listening on port: 5000");
+});
