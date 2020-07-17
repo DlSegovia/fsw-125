@@ -8,7 +8,7 @@ const bounties = [
         living: "true",
         bountyAmount: "5000",
         type: "Jedi",
-        imageName: <img src= "",
+        // image: <img src= "",
          _id: uuid()
     },
 
@@ -100,7 +100,7 @@ bountyRouter.post("/", (reg, res) => {
     const newBounty = req.body
     newBounty._id = uuid()
     bounties.push(newBounty)
-    res.send("Successfully added ${newBounty.title} to the database")
+    res.send(newBounty)
 })
 
 // Update One

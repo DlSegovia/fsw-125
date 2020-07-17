@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 export default function AddBountyForm(props) {
 const initInputs = {title: "", type: "", bountyAmount: "", living: "" }
 const [inputs, setInputs] = useState(initInputs)
-console.log(inputs)
+
 
 function handleChange(e){
   const { name, value} = e.target

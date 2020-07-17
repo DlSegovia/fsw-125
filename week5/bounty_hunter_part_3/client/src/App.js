@@ -14,7 +14,9 @@ export default function App(){
 
     function getBounties(){
         axios.get("/bounties")
-        .then(res => setBounty(res.data))
+        .then(res => {
+            setBounty(prevBounties => [...prevBounties, res.data])
+        })
         .catch(err => console.log(err))
     }
 
