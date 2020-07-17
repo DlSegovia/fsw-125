@@ -8,7 +8,7 @@ const bounties = [
         living: "true",
         bountyAmount: "5000",
         type: "Jedi",
-        // image: <img src= "",
+        imageName: <img src= "",
          _id: uuid()
     },
 
