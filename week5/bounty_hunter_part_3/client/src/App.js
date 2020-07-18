@@ -14,15 +14,15 @@ export default function App(){
 
     function getBounties(){
         axios.get("/bounties")
-        .then(res => {
-            setBounty(prevBounties => [...prevBounties, res.data])
-        })
+        .then(res => setBounty(res.data))
         .catch(err => console.log(err))
     }
 
     function AddBounty(newBounty){
         axios.post("/bounties", newBounty)
-        .then(res => console.log(res))
+        .then(res => {
+            setBounty(prevBounties => [...prevBounties, res.data])
+        })
         .catch(err => console.log(err))
         setBounty([...bounty,newBounty])
     }
