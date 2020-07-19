@@ -1,0 +1,247 @@
+AddBountyForm.js
+
+import React, { useState } from 'react'
+
+export default function AddBountyForm(props) {
+const initInputs = {title: "", type: "", bountyAmount: "", living: "" }
+const [inputs, setInputs] = useState(initInputs)
+console.log(inputs)
+
+function handleChange(e){
+  const { name, value} = e.target
+  setInputs(prevInput => ({...prevInput, [name]: value, }))
+}
+
+function handleSubmit(){
+  props.addBounty(inputs)
+  setInputs(initInputs)
+}
+
+  return (
+    <form onSubmit={(e) => {e.preventDefault()
+    handleSubmit()}}>
+<input 
+type="text" 
+name="title" 
+value={inputs.title} 
+onChange={handleChange} 
+placeholder="Title"/>
+<input 
+type="text" 
+name="type" 
+value={inputs.type} 
+onChange={handleChange} 
+placeholder="Jedi / Sith"/>
+<input 
+type="text" 
+name="bountyAmount" 
+value={inputs.bountyAmount} 
+onChange={handleChange} 
+placeholder="Bounty Amount"/>
+<input 
+type="text" 
+name="living" 
+value={inputs.living} 
+onChange={handleChange} 
+placeholder="Living"/>
+<button>Add Bounty</button>
+    </form>
+  )
+}
+
+
+Bounty.js
+
+import React from 'react'
+
+export default function Bounty(props) {
+  const {title, type, bountyAmount, living, _id} = props
+  return (
+    <div className='bounty'>
+      <h1 className='title'>Title: {title}</h1>
+      <h1 className='type'>Jedi / Sith: {type}</h1>
+      <h2 className='botyAmt'>Bounty: {bountyAmount}</h2>
+      <h3 className='living'>Living: {living}</h3>
+
+    </div>
+  )
+}
+
+App.js
+
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+import Bounty from './components/Bounty.js'
+import AddBountyForm from './components/AddBountyForm.js'
+
+export default function App() {
+    const [bounty, setBounty] = useState([])
+
+    function getBounties(){
+        axios.get("/bounties")
+        .then(res => setBounty(res.data))
+        .catch(err => console.log(err))
+    }
+
+    function addBounty(newBounty){
+        axios.post("/bounties", newBounty)
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+        setBounty([...bounty,newBounty])
+    }
+
+    useEffect(() => {
+        getBounties()
+    }, [])
+
+
+    return (
+        <div>
+            <div className='bounty-container'>
+                <AddBountyForm 
+                addBounty={addBounty}/>
+                {bounty.map(bounty => <Bounty {...bounty} key={bounty.title} />)}
+            </div>
+        </div>
+    )
+}
+
+index.js
+
+import React from 'react'
+import ReactDom from 'react-dom'
+import App from './App.js'
+
+
+ReactDom.render(<App />,document.getElementById('root'))
+
+styles
+
+* {
+    box-sizing: border-box;
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333333;
+}
+
+.title,
+.type,
+.botyAmt,
+.living {
+    margin: 5px;
+}
+
+.bounty-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 32px;
+}
+
+.bounty {
+    border: 1px solide #333333;
+    padding: 10px;
+    margin: 5px;
+}
+
+bountyRouter.js
+
+const express = require('express')
+const bountyRouter = express.Router()
+const { uuid } = require("uuidv4")
+
+const bounties = [
+    {
+        title: "Kit Fisto",
+        living: "true",
+        bountyAmount: "5000",
+        type: "Jedi", _id: uuid()
+    },
+
+    {
+        title: "Eeth Koth",
+        living: "true",
+        bountyAmount: "5000",
+        type: "Jedi", _id: uuid()
+    },
+ 
+    {
+        title: "Darth Sidious",
+        living: "true",
+        bountyAmount: "3500",
+        type: "Sith", _id: uuid()
+    },
+
+    {
+        title: "Darth Traya",
+        living: "true",
+        bountyAmount: "750",
+        type: "Sith", _id: uuid()
+    }
+]
+
+// Get All
+bountyRouter.get("/", (req, res) => {
+    console.log('hit')
+    res.send(bounties)
+})
+
+// Get One
+bountyRouter.get("/:bountyId", (req, res) => {
+    const bountyId = req.params.bountyId
+    const foundBounty = bounties.find(bounty => bounty._id === bountyId)
+    res.send(foundBounty)
+})
+
+// Get by Bounty Object
+bountyRouter.get("/search/living", (req, res) => {
+    const living = req.query.living
+    const filteredbounties = bounties.filter(bounty => bounty.living === living)
+    res.send(filteredbounties)
+})
+
+// Post One
+bountyRouter.post("/", (req, res) => {
+    const newBounty = req.body
+    newBounty._id = uuid()
+    bounties.push(newBounty)
+    res.send(newBounty)
+})
+
+// Update One
+bountyRouter.put("/:bountyId", (req, res) => {
+    const bountyId = req.params.bountyId
+    const bountyIndex = bounties.findIndex(bounty => bounty._id === bountyId)
+    const updatedBounty = Object.assign(bounties[bountyIndex], req.body)
+    res.send(updatedBounty)
+})
+
+// Delete One
+bountyRouter.delete("/:bountyId", (req, res) => {
+    const bountyId = req.params.bountyId
+    const bountyIndex = bounties.findIndex(bounty => bounty._id === bountyId)
+    bounties.splice(bountyIndex, 1)
+    res.send("Successfully deleted Bounty!")
+})
+
+
+module.exports = bountyRouter
+
+server.js
+
+const express = require("express")
+const app = express()
+// const morgan = require("morgan")
+
+// Middleware (for every request)
+app.use(express.json())// Looks for a request body, and turns it into 'req.body'
+// app.use(morgan('dev'))// Logs request to the console
+
+// Routes
+app.use("/bounties", require('./routes/bountyRouter.js'));
+
+
+// Server Listen
+app.listen(7000, () => {
+    console.log("The server is running on Port 7000")
+})

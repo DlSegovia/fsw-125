@@ -1,0 +1,62 @@
+* {
+    box-sizing: border-box;
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333333;
+}
+
+.title,
+.type,
+.botyAmt,
+.living {
+    margin: 5px;
+}
+
+.form {
+    width: 500px;
+    border: 1px solid #333;
+    padding: 10px;
+    margin: 5px;
+}
+
+.input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    margin: 5px;
+}
+
+.btn1 {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.delBtn {
+    background-color: crimson;
+    color: whitesmoke;
+    font-size: 16px;
+}
+
+.editBtn {
+    background-color: cornflowerblue;
+    color: whitesmoke;
+    font-size: 16px;
+}
+
+.bounty-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 32px;
+}
+
+.bounty {
+    border: 1px solide #333333;
+    padding: 10px;
+    margin: 5px;
+}
